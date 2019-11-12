@@ -84,6 +84,12 @@ class FlutterBranchIoPlugin {
       _messageChannel.invokeMethod("setUserIdentity", _params);
   }
 
+  static void setRequestMetadata( String distinctID ) {
+    Map<String, dynamic> _params = {};
+    _params["distinctID"] = distinctID;
+    _messageChannel.invokeMethod("setRequestMetadata", _params);
+  }
+
   static void clearUserIdentity( String userId ) {
     _messageChannel.invokeMethod("clearUserIdentity");
   }

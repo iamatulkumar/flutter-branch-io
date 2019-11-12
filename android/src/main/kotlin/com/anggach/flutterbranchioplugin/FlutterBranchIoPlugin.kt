@@ -1,5 +1,6 @@
 package com.anggach.flutterbranchioplugin
 
+import android.app.Activity
 import com.anggach.flutterbranchioplugin.src.*
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -75,6 +76,10 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
             call.method == "clearUserIdentity" -> {
                 clearUserID()
                 result.success("clear User Identity Success")
+            }
+            call.method == "setRequestMetadata" -> {
+                setRequestMetadata(call)
+                result.success("set Request metadata Success")
             }
             else -> result.notImplemented()
         }

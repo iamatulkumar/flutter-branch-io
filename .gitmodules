@@ -1,0 +1,3 @@
+[submodule "flutter-branch-io"]
+	path = flutter-branch-io
+	url = https://github.com/iamatulkumar/flutter-branch-io.git

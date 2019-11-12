@@ -95,6 +95,11 @@ fun setUserID(call: MethodCall) {
     Branch.getInstance().setIdentity(userId ?: "")
 }
 
+fun setRequestMetadata(call: MethodCall) {
+    val distinctID = call.argument<String>("distinctID")
+    Branch.getInstance().setRequestMetadata("\$mixpanel_distinct_id",distinctID ?: "")
+}
+
 fun clearUserID() {
     Branch.getInstance().logout()
 }

@@ -111,6 +111,12 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
         let latestParams = Branch.getInstance()?.getLatestReferringParams()
         result(latestParams)
     }
+    
+    private func setRequestMetadata(call: FlutterMethodCall, result _: @escaping FlutterResult) {
+        let args = call.arguments as? [String: Any?]
+        let id = args?["distinctID"] as! String?
+        Branch.getInstance().setRequestMetadataKey("$mixpanel_distinct_id", value: id)
+    }
 
     private func getFirstParam(call _: FlutterMethodCall, result: @escaping FlutterResult) {
         let firstParams = Branch.getInstance()?.getFirstReferringParams()
@@ -133,6 +139,9 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
                               result: result)
         case "getLatestParam":
             getLatestParam(call: call,
+                           result: result)
+        case "setRequestMetadata":
+            setRequestMetadata(call: call,
                            result: result)
         case "getFirstParam":
             getFirstParam(call: call,
