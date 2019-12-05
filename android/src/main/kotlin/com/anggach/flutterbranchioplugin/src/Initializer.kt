@@ -6,6 +6,7 @@ import com.anggach.flutterbranchioplugin.DEBUG_NAME
 import com.anggach.flutterbranchioplugin.INTENT_EXTRA_DATA
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
+import io.branch.referral.BranchReferralUrlBuilder
 import io.branch.referral.BranchUtil
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.MethodChannel.Result
@@ -23,7 +24,7 @@ fun init(registrar: PluginRegistry.Registrar) {
     Branch.enableDebugMode()
 
     // Branch object initialization
-    Branch.getAutoInstance(registrar.activity().applicationContext)
+    Branch.getAutoInstance(registrar.activity().applicationContext, true)
 }
 
 fun setUpBranchIo(registrar: PluginRegistry.Registrar, deepLinkStreamHandler: DeepLinkStreamHandler?, result: Result) {
