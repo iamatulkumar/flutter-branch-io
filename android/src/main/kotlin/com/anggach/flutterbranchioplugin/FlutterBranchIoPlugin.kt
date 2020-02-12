@@ -1,6 +1,7 @@
 package com.anggach.flutterbranchioplugin
 
 import android.app.Activity
+import android.content.Intent
 import com.anggach.flutterbranchioplugin.src.*
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -25,9 +26,13 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
         private lateinit var eventChannel: EventChannel
         private lateinit var generatedLinkChannel: EventChannel
 
+        var registrar: Registrar? = null;
+
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             if (registrar.activity() == null) return
+
+            this.registrar = registrar;
 
             val instance = FlutterBranchIoPlugin(registrar)
 
@@ -38,10 +43,17 @@ class FlutterBranchIoPlugin(private var registrar: Registrar) : MethodCallHandle
             eventChannel.setStreamHandler(this.deepLinkStreamHandler)
 
             generatedLinkChannel = EventChannel(registrar.messenger(), GENERATED_LINK_CHANNEL)
-            this.generatedLinkStreamHandler = this.generatedLinkStreamHandler ?: GeneratedLinkStreamHandler()
+            this.generatedLinkStreamHandler = this.generatedLinkStreamHandler
+                    ?: GeneratedLinkStreamHandler()
             generatedLinkChannel.setStreamHandler(this.generatedLinkStreamHandler)
         }
 
+        fun getDeeplinkParam(handler: String) {
+            val params = handler
+            val intent = Intent()
+            intent.putExtra(INTENT_EXTRA_DATA, params)
+            deepLinkStreamHandler!!.handleIntent(registrar!!.activity(), intent)
+        }
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {

@@ -68,18 +68,17 @@ class _MyAppState extends State<MyApp> {
         lpFeature: "sharing",
         lpCampaign: "content 123 launch",
         lpStage: "new user",
-        lpControlParams: {
-          "url": "http://www.google.com"
-        }
-    );
+        lpControlParams: {"url": "http://www.google.com"});
 
-    FlutterBranchIoPlugin.trackContent( FlutterBranchUniversalObject()
-        .setCanonicalIdentifier("content/12345")
-        .setTitle("My Content Title")
-        .setContentDescription("My Content Description")
-        .setContentImageUrl("https://lorempixel.com/400/400")
-        .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
-        .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC), FlutterBranchStandardEvent.VIEW_ITEM);
+    FlutterBranchIoPlugin.trackContent(
+        FlutterBranchUniversalObject()
+            .setCanonicalIdentifier("content/12345")
+            .setTitle("My Content Title")
+            .setContentDescription("My Content Description")
+            .setContentImageUrl("https://lorempixel.com/400/400")
+            .setContentIndexingMode(BUO_CONTENT_INDEX_MODE.PUBLIC)
+            .setLocalIndexMode(BUO_CONTENT_INDEX_MODE.PUBLIC),
+        FlutterBranchStandardEvent.VIEW_ITEM);
   }
 
   @override
@@ -99,22 +98,18 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                      "LATEST DATA BRANCH $_data"
-                  ),
+                  child: Text("LATEST DATA BRANCH $_data"),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                      "GENERATED LINK $generatedLink"
-                  ),
+                  child: Text("GENERATED LINK $generatedLink"),
                 ),
-                error.isEmpty ? Container() : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                      "ERROR: $error"
-                  ),
-                )
+                error.isEmpty
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text("ERROR: $error"),
+                      )
               ],
             ),
           );
