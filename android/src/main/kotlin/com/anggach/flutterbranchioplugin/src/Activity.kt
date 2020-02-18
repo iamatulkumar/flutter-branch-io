@@ -17,6 +17,7 @@ open class FlutterBranchAndroidLifecycleActivity : FlutterActivity() {
     override fun onStart() {
         super.onStart()
         // Branch init
+        Branch.getInstance().enableFacebookAppLinkCheck();
         Branch.getInstance().initSession(object : Branch.BranchReferralInitListener {
             override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
                 if (error == null) {
@@ -32,6 +33,7 @@ open class FlutterBranchAndroidLifecycleActivity : FlutterActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         this.intent = intent
+        Branch.getInstance().enableFacebookAppLinkCheck();
         // Branch reinit (in case Activity is already in foreground when Branch link is clicked)
         Branch.getInstance().reInitSession(this, object : Branch.BranchReferralInitListener {
             override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {

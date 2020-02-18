@@ -1,6 +1,7 @@
 import Branch
 import Flutter
 import UIKit
+import FBSDKCoreKit
 
 public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, FlutterPlugin {
     static var eventHandler: EventStreamHandler?
@@ -156,7 +157,8 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
     ) -> Bool {
 
         Branch.getInstance()?.delayInitToCheckForSearchAds()
-        
+        Branch.getInstance()?.registerFacebookDeepLinkingClass(AppLinkUtility.self)
+
         Branch.getInstance()?.initSession(launchOptions: launchOptions) { params, error in
             // do stuff with deep link data (nav to page, display content, etc)
             print(params as? [String: AnyObject] ?? {})
@@ -175,8 +177,7 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
         }
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
-
-
+    
     override public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         let branchHandled = Branch.getInstance()?.application(app, open: url, options: options) ?? false
         return branchHandled
@@ -192,4 +193,12 @@ public class SwiftFlutterBranchIoPlugin: FlutterPluginAppLifeCycleDelegate, Flut
         let handledByBranch = Branch.getInstance()?.continue(userActivity) ?? false
         return handledByBranch
     }
+    
+    func application(_ application: UIApplication,
+                           didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+              FBSDKCoreKit.ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+              
+              return true
+          }
+          
 }
