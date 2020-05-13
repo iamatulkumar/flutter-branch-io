@@ -4,9 +4,8 @@ import android.content.Intent
 import android.util.Log
 import com.anggach.flutterbranchioplugin.FlutterBranchIoPlugin
 import io.branch.referral.Branch
-import io.branch.referral.BranchError
 import io.flutter.app.FlutterActivity
-import org.json.JSONObject
+
 
 open class FlutterBranchAndroidLifecycleActivity : FlutterActivity() {
 
@@ -18,33 +17,28 @@ open class FlutterBranchAndroidLifecycleActivity : FlutterActivity() {
         super.onStart()
         // Branch init
         Branch.getInstance().enableFacebookAppLinkCheck();
-        Branch.getInstance().initSession(object : Branch.BranchReferralInitListener {
-            override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
-                if (error == null) {
-                    setUpOnStartStream(referringParams.toString());
-                    Log.i("BRANCH SDK", referringParams.toString())
-                } else {
-                    Log.e("BRANCH SDK", error.message)
-                }
+        Branch.sessionBuilder(this).withCallback { linkProperties, error ->
+            if (error == null) {
+                setUpOnStartStream(linkProperties.toString());
+                Log.i("BRANCH SDK", linkProperties.toString())
+            } else {
+                Log.e("BRANCH SDK", error.message)
             }
-        }, this.intent.data, this)
+        }.withData(if (intent != null) intent.data else null).init()
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         this.intent = intent
         Branch.getInstance().enableFacebookAppLinkCheck();
-        // Branch reinit (in case Activity is already in foreground when Branch link is clicked)
-        Branch.getInstance().reInitSession(this, object : Branch.BranchReferralInitListener {
-            override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
-                if (error == null) {
-                    setUpOnStartStream(referringParams.toString());
-                    Log.i("BRANCH SDK", referringParams.toString())
-                } else {
-                    Log.e("BRANCH SDK", error.message)
-                }
+        Branch.sessionBuilder(this).withCallback { linkProperties, error ->
+            if (error == null) {
+                setUpOnStartStream(linkProperties.toString());
+                Log.i("BRANCH SDK", linkProperties.toString())
+            } else {
+                Log.e("BRANCH SDK", error.message)
             }
-        })
+        }.reInit();
     }
 
     override fun onResume() {

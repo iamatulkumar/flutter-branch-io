@@ -6,6 +6,7 @@ import io.flutter.app.FlutterApplication
 
 class FlutterBranchIOApp : FlutterApplication() {
 
+
     override fun onCreate() {
         super.onCreate()
 

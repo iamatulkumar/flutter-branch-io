@@ -42,4 +42,7 @@ fun setUpBranchIo(registrar: PluginRegistry.Registrar, deepLinkStreamHandler: De
         }
     }, registrar.activity().intent.data, registrar.activity())
 
+    Branch.sessionBuilder(registrar.activity()).withCallback(Branch.BranchReferralInitListener { referringParams, error ->
+
+    })
 }
